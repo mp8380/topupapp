@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+<section class="form-wrap">
+  <h2>Create Account</h2>
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+  <form method="post" action="/register" class="auth-form">
+    <label>Full Name <input type="text" name="fullName" required /></label>
+    <label>Email <input type="email" name="email" required /></label>
+    <label>Mobile Number <input type="text" name="phone" required /></label>
+    <label>Password <input type="password" name="password" required /></label>
+    <button type="submit">Register</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

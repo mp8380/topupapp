@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourName Topup</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">YourName</a>
+      <nav>
+        <a href="/">Home</a>
+        <% if (!currentUser) { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+        <% } else if (currentUser.role === 'admin') { %>
+        <a href="/admin/orders">Admin Dashboard</a>
+        <form action="/logout" method="post" class="inline-form"><button type="submit">Logout</button></form>
+        <% } else { %>
+        <a href="/dashboard">Dashboard</a>
+        <form action="/logout" method="post" class="inline-form"><button type="submit">Logout</button></form>
+        <% } %>
+      </nav>
+    </header>
+    <main>

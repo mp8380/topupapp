@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<section class="dashboard-header">
+  <h2>User Dashboard</h2>
+  <p>Welcome, <%= currentUser.fullName %>. Create and track your orders below.</p>
+</section>
+
+<section class="panel">
+  <h3>Create New Order</h3>
+  <form action="/orders" method="post" class="order-form">
+    <label>Name <input type="text" name="customerName" required /></label>
+    <label>Mobile Number <input type="text" name="mobile" required /></label>
+    <label>Game
+      <select name="game" required>
+        <option value="">Select game</option>
+        <option>Free Fire</option>
+        <option>Roblox</option>
+        <option>Minecraft</option>
+        <option>PUBG Mobile</option>
+      </select>
+    </label>
+    <label>Currency Type <input type="text" name="currencyType" placeholder="Diamonds / Coins / Robux" required /></label>
+    <label>Amount <input type="number" min="1" name="amount" required /></label>
+    <label>Player ID / Username <input type="text" name="playerId" required /></label>
+    <label>Notes <textarea name="notes" rows="3"></textarea></label>
+    <button type="submit">Submit Order</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h3>My Orders</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date & Time</th>
+          <th>Game</th>
+          <th>Currency</th>
+          <th>Amount</th>
+          <th>Player ID</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (orders.length === 0) { %>
+        <tr><td colspan="8">No orders yet.</td></tr>
+        <% } %>
+        <% orders.forEach(order => { %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><%= order.created_at %></td>
+          <td><%= order.game %></td>
+          <td><%= order.currency_type %></td>
+          <td><%= order.amount %></td>
+          <td><%= order.player_id %></td>
+          <td><span class="status <%= order.status %>"><%= order.status %></span></td>
+          <td>
+            <% if (order.status === 'pending' || order.status === 'processing') { %>
+            <form method="post" action="/orders/<%= order.id %>/cancel">
+              <button type="submit" class="danger">Cancel</button>
+            </form>
+            <% } else { %>
+            -
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
