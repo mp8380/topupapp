@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<section class="dashboard-header">
+  <h2>Admin Orders Dashboard</h2>
+  <p>Manage all incoming orders and update status in real time.</p>
+</section>
+
+<section class="panel">
+  <h3>All Orders</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date & Time</th>
+          <th>Customer</th>
+          <th>Mobile</th>
+          <th>Game</th>
+          <th>Currency</th>
+          <th>Amount</th>
+          <th>Player ID</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (orders.length === 0) { %>
+        <tr><td colspan="10">No orders found.</td></tr>
+        <% } %>
+        <% orders.forEach(order => { %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><%= order.created_at %></td>
+          <td><strong><%= order.customer_name %></strong><br /><small><%= order.user_email %></small></td>
+          <td><%= order.mobile %></td>
+          <td><%= order.game %></td>
+          <td><%= order.currency_type %></td>
+          <td><%= order.amount %></td>
+          <td><%= order.player_id %></td>
+          <td><span class="status <%= order.status %>"><%= order.status %></span></td>
+          <td>
+            <form action="/admin/orders/<%= order.id %>/status" method="post" class="status-form">
+              <select name="status">
+                <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>pending</option>
+                <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>processing</option>
+                <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>completed</option>
+                <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>cancelled</option>
+              </select>
+              <button type="submit">Save</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
